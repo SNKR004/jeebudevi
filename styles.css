@@ -131,27 +131,35 @@ section { padding: 40px 20px; }
 .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; transition-delay: calc(var(--delay, 0) * 1ms); }
 .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
 
-/* --- NEW: Touch Halo Effect --- */
+/* --- NEW: Touch Halo Effect (High-Performance Version) --- */
 #touch-halo {
     position: fixed;
-    /* CHANGED: Increased size from 50px to 80px */
+    /* Set a base position that we won't change */
+    left: 0; 
+    top: 0;
+
     width: 80px;
     height: 80px;
     
     background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
     border-radius: 50%;
-    
-    /* CHANGED: Increased the glow to match the new size */
     box-shadow: 0 0 40px var(--gold-color), 0 0 70px var(--saffron-color);
     
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+    
+    /* We now use transform for all movement and scaling */
+    transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(0);
+    
     pointer-events: none;
     z-index: 9999;
     
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
+
 #touch-halo.active {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    /* We only change the scale, not the main position */
+    transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(1);
+    /* Make the movement instant when touching */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, transform 0s linear;
 }
