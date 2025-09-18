@@ -73,30 +73,27 @@ if (lightbox) {
     });
 }
 
-// --- NEW: Touch Halo Interactivity ---
+// --- NEW: Touch Halo Interactivity (High-Performance Version) ---
 const touchHalo = document.getElementById('touch-halo');
 if (touchHalo) {
     const updateHaloPosition = (e) => {
-        // Use the first touch point
         const touch = e.touches[0];
-        touchHalo.style.left = `${touch.clientX}px`;
-        touchHalo.style.top = `${touch.clientY}px`;
+        // Instead of changing top/left, we now update CSS variables for transform
+        touchHalo.style.setProperty('--x', `${touch.clientX}px`);
+        touchHalo.style.setProperty('--y', `${touch.clientY}px`);
     };
 
     document.addEventListener('touchstart', (e) => {
         touchHalo.classList.add('active');
-
-        // Set initial position
         updateHaloPosition(e);
     });
 
     document.addEventListener('touchmove', (e) => {
-        // Update position as the finger moves
+        // This will now be much smoother
         updateHaloPosition(e);
     });
 
     document.addEventListener('touchend', () => {
-        // Fade out the halo when the touch ends
         touchHalo.classList.remove('active');
     });
 }
