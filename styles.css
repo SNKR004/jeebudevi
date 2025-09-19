@@ -12,7 +12,7 @@
     margin: 0; 
     padding: 0; 
     box-sizing: border-box; 
-    -webkit-tap-highlight-color: transparent; /* ADD THIS LINE */
+    -webkit-tap-highlight-color: transparent; /* <--- THIS IS THE NEW LINE TO ADD */
 }
 
 body {
@@ -22,7 +22,11 @@ body {
     overflow-x: hidden;
 }
 
-.container { position: relative; z-index: 5; padding-bottom: 50px; }
+.container { 
+    position: relative; 
+    z-index: 5; 
+    padding-bottom: 50px; 
+}
 
 /* --- Backgrounds & Floating Stickers --- */
 .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
@@ -230,4 +234,5 @@ section { padding: 40px 20px; }
 /* --- Optimized Touch Halo Effect --- */
 #touch-halo { position: fixed; left: 0; top: 0; width: 76px; height: 76px; background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent); border-radius: 50%; box-shadow: 0 0 38px var(--gold-color), 0 0 65px var(--saffron-color); opacity: 0; transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(0); pointer-events: none; z-index: 9999; transition: opacity 0.3s ease-out, transform 0.2s ease-out; }
 #touch-halo.active { opacity: 1; transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(1); }
+
 
