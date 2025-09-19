@@ -116,7 +116,7 @@ if (gameContainer) {
     let gameActive = true;
     
     // NEW: Array for your custom miss messages
-    const missMessages = ['haha noob', 'evv anil saar', 'sairaam'];
+    const missMessages = ['haha noob', 'evv anil saar', 'sairaam', 'chill daddy'];
     // NEW: Counter to track which message to show
     let missCounter = 0;
 
@@ -190,3 +190,4 @@ if (gameContainer) {
 
     gameContainer.addEventListener('click', fireArrow);
 }
+
