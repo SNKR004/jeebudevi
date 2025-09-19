@@ -117,7 +117,36 @@ section { padding: 40px 20px; }
 }
 
 /* --- Interactive Elements & Lightbox --- */
-.roblox-code-wrapper { border-top: 2px solid var(--saffron-color); padding-top: 1.5rem; margin: 1.5rem auto; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+/* --- CORRECTED styles for the reward section title --- */
+
+/* This styles the title and creates the SINGLE line BELOW it */
+.game-title {
+    border-bottom: 2px solid var(--saffron-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    /* Forcefully remove any other unwanted borders */
+    border-top: none;
+}
+
+/* This ensures the main container has NO border */
+#robux-reveal {
+    text-align: center;
+    border-top: none;
+    padding-top: 0;
+}
+
+/* This ensures the code box has NO line above it */
+#robux-reveal .roblox-code-wrapper {
+    border-top: none;
+    padding-top: 1.5rem; /* This was missing from your code, it adds space */
+    margin: 1.5rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
 .roblox-code { font-size: 1.5rem; font-weight: 700; background: #000; padding: 10px 15px; border-radius: 8px; user-select: all; }
 #copy-button { background-color: var(--gold-color); color: #1a0006; border: none; font-weight: 700; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: transform 0.2s; }
 #copy-button:active { transform: scale(0.95); }
@@ -131,35 +160,68 @@ section { padding: 40px 20px; }
 .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; transition-delay: calc(var(--delay, 0) * 1ms); }
 .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
 
-/* --- NEW: Touch Halo Effect (High-Performance Version) --- */
-#touch-halo {
-    position: fixed;
-    /* Set a base position that we won't change */
-    left: 0; 
-    top: 0;
 
+/* --- Final Game and Reward Styles --- */
+#game-container { position: relative; height: 350px; margin-top: 1.5rem; cursor: pointer; overflow: hidden; background: rgba(0,0,0,0.2); border-radius: 12px; }
+#ravana-target { position: absolute; top: 15%; width: 120px; height: 120px; overflow: hidden; border-radius: 50%; animation: move-ravana 0.96s ease-in-out infinite alternate; }
+#ravana-target img { width: 100%; height: 100%; object-fit: cover; }
+@keyframes move-ravana { from { left: -30px; } to { left: 100%; transform: translateX(-90px); } }
+#ravana-target.hit { transform: scale(0); opacity: 0; transition: transform 0.2s, opacity 0.2s; }
+/* CORRECTED and FINAL Arrow Size and Rotation */
+#arrow {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    
+    /* This sets the size of the container for the arrow */
     width: 80px;
     height: 80px;
+
+    /* This centers the arrow */
+    transform: translateX(-50%);
     
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
-    border-radius: 50%;
-    box-shadow: 0 0 40px var(--gold-color), 0 0 70px var(--saffron-color);
-    
-    opacity: 0;
-    
-    /* We now use transform for all movement and scaling */
-    transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(0);
-    
-    pointer-events: none;
-    z-index: 9999;
-    
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transition: transform 0.3s cubic-bezier(0.5, 0, 1, 1);
+    z-index: 1;
 }
 
-#touch-halo.active {
-    opacity: 1;
-    /* We only change the scale, not the main position */
-    transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(1);
-    /* Make the movement instant when touching */
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out, transform 0s linear;
+#arrow img {
+    width: 100%; /* This makes the image fit inside the 80px container */
+    height: auto;
+    
+    /* This rotates the arrow to point straight up */
+    transform: rotate(120deg);
+    
+    filter: drop-shadow(0 0 10px var(--saffron-color));
 }
+
+/* This is the existing 'fired' animation, it is correct */
+#arrow.fired {
+    transform: translateX(-50%) translateY(-280px);
+}
+#arrow.hit { opacity: 0; transform: scale(0); transition: opacity 0.2s, transform 0.2s; }
+
+#try-again-message, #jai-shri-ram { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; pointer-events: none; z-index: 100; }
+#try-again-message { font-size: 1.5rem; font-weight: 700; color: #fff; background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 8px; transition: opacity 0.3s; }
+#try-again-message.visible { opacity: 1; }
+#jai-shri-ram { font-size: 2.5rem; font-weight: 900; color: var(--saffron-color); text-shadow: 0 0 15px var(--gold-color); }
+#jai-shri-ram.visible { animation: fadeInOut 3s forwards; }
+@keyframes fadeInOut { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 80% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); } }
+#fireworks-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 99; }
+.firework-particle { position: absolute; background-color: transparent; border-radius: 50%; opacity: 0; animation: explode 0.8s forwards ease-out; }
+@keyframes explode { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1); opacity: 0; filter: blur(2px); } }
+#robux-reveal.hidden { display: none; }
+#robux-reveal .roblox-code-wrapper { margin: 1.5rem auto; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+#robux-reveal .roblox-code { font-size: 1.5rem; font-weight: 700; background: #000; padding: 10px 15px; border-radius: 8px; user-select: all; }
+#robux-reveal #copy-button { background-color: var(--gold-color); color: #1a0006; border: none; font-weight: 700; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: transform 0.2s; }
+#robux-reveal #copy-button:active { transform: scale(0.95); }
+
+/* --- Lightbox Styles --- */
+.lightbox { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.lightbox.active { opacity: 1; pointer-events: all; }
+.lightbox-content { max-width: 90%; max-height: 90%; transform: scale(0.8); transition: transform 0.3s ease; }
+.lightbox.active .lightbox-content { transform: scale(1); }
+.lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 40px; color: #fff; cursor: pointer; }
+
+/* --- Optimized Touch Halo Effect --- */
+#touch-halo { position: fixed; left: 0; top: 0; width: 76px; height: 76px; background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent); border-radius: 50%; box-shadow: 0 0 38px var(--gold-color), 0 0 65px var(--saffron-color); opacity: 0; transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(0); pointer-events: none; z-index: 9999; transition: opacity 0.3s ease-out, transform 0.2s ease-out; }
+#touch-halo.active { opacity: 1; transform: translate(var(--x, 0), var(--y, 0)) translate(-50%, -50%) scale(1); }
