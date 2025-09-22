@@ -116,7 +116,7 @@ if (gameContainer) {
     let gameActive = true;
     
     // NEW: Array for your custom miss messages
-    const missMessages = ['haha noob', 'evv anil saar', 'sairaam', 'chill daddy'];
+    const missMessages = ['evv anil saar', 'sairaam', 'chindu jeebamma', 'haha noob', 'chill daddy'];
     // NEW: Counter to track which message to show
     let missCounter = 0;
 
@@ -191,3 +191,46 @@ if (gameContainer) {
     gameContainer.addEventListener('click', fireArrow);
 }
 
+// --- NEW & IMPROVED: Mantra Scroller Functionality ---
+const scroller = document.querySelector('.mantra-scroller');
+const navContainer = document.querySelector('.mantra-nav');
+
+if (scroller && navContainer) {
+    const slides = document.querySelectorAll('.mantra-slide');
+    
+    // Create navigation dots (this part is the same)
+    slides.forEach(() => {
+        const dot = document.createElement('div');
+        dot.classList.add('nav-dot');
+        navContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.nav-dot');
+
+    // NEW, smarter function to update the dots
+    const updateNav = () => {
+        const slideWidth = scroller.offsetWidth;
+        const currentIndex = Math.round(scroller.scrollLeft / slideWidth);
+        
+        dots.forEach((dot, index) => {
+            // Remove any previous state classes first
+            dot.classList.remove('active', 'neighbor');
+
+            const distance = Math.abs(index - currentIndex);
+
+            if (distance === 0) {
+                // This is the current, active dot
+                dot.classList.add('active');
+            } else if (distance === 1) {
+                // These are the immediate neighbors
+                dot.classList.add('neighbor');
+            }
+            // Any other dots will just have the default (faint and small) style
+        });
+    };
+
+    // Initial call to set the dots correctly on page load
+    updateNav();
+    // Update dots on every scroll event
+    scroller.addEventListener('scroll', updateNav);
+}
