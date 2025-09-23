@@ -116,7 +116,7 @@ if (gameContainer) {
     let gameActive = true;
     
     // NEW: Array for your custom miss messages
-    const missMessages = ['evv anil saar', 'sairaam', 'chindu jeebamma', 'haha noob', 'chill daddy'];
+    const missMessages = ['chindu ellamma🚫 jeebu chellamma✅','evv anil saar🤩', 'sairaam😂', 'haha noob🤫', 'chill daddy🙈'];
     // NEW: Counter to track which message to show
     let missCounter = 0;
 
@@ -234,3 +234,4 @@ if (scroller && navContainer) {
     // Update dots on every scroll event
     scroller.addEventListener('scroll', updateNav);
 }
+
